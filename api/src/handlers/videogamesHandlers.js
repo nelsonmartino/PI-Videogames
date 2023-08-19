@@ -3,8 +3,7 @@ const {
   getApiVideogames,
   getDbVideogameByName,
   getApiVideogamesByName,
-  getDbVideogameById,
-  getApiVideogamebyId,
+  getVideogameById,
   postVideogame,
 } = require("../controllers/videogamesController");
 
@@ -49,14 +48,9 @@ const getVideogameByIdHandler = async (req, res) => {
   const { idVideogame } = req.params;
 
   try {
-    //Requering data from DB
-    if (idVideogame.length === 36) {
-      const game = await getDbVideogameById(idVideogame);
-      return res.status(200).json(game);
-    }
-    //If there isn't result, request to API
-    const game = await getApiVideogamebyId(idVideogame);
-    res.status(200).json(game);
+    //Requering data from DB/API
+    const videogame = await getVideogameById(idVideogame);
+    res.status(200).json(videogame);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

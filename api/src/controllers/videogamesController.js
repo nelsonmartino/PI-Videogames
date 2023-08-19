@@ -3,6 +3,7 @@ const axios = require("axios");
 require("dotenv").config();
 const { API_KEY } = process.env;
 const { Op } = require("sequelize");
+const { arrangeApiData, arrangeDbData } = require("../utils/dataArrange");
 
 const getDbVideogames = async () => {
   //Getting videogames from database
@@ -15,23 +16,8 @@ const getDbVideogames = async () => {
       },
     },
   });
-  //Desctructuring and getting needed information
-  dbVideogames = dbVideogames.map((result) => {
-    let { id, name, platforms, background_image, released, rating, genres } =
-      result;
-    genres = genres.map((gen) => gen.name);
-    return {
-      id,
-      name,
-      platforms,
-      background_image,
-      released,
-      rating,
-      genres,
-    };
-  });
-  //Returning videogames array to handler
-  return dbVideogames;
+  //Desctructuring and getting needed information and returning
+  return dbVideogames.map((dbVideogame) => arrangeDbData(dbVideogame));
 };
 
 const getApiVideogames = async () => {
@@ -39,30 +25,8 @@ const getApiVideogames = async () => {
   const { data } = await axios.get(
     `https://api.rawg.io/api/games?key=${API_KEY}`
   );
-  //Desctructuring and getting needed information
-  const apiVideogames = data.results.map((result) => {
-    let { id, name, platforms, background_image, released, rating, genres } =
-      result;
-    //Desctructuring and getting needed information from platforms
-    platforms = platforms.map((plat) => {
-      const { platform } = plat;
-      return platform.name;
-    });
-    //Destructuring and getting needed information from genres
-    genres = genres.map((gen) => gen.name);
-    //Returning arranged element from map
-    return {
-      id,
-      name,
-      platforms,
-      background_image,
-      released,
-      rating,
-      genres,
-    };
-  });
-  //Returning videogames array to handler
-  return apiVideogames;
+  //Desctructuring and getting needed information and returning
+  return data.results.map((apiVideogame) => arrangeApiData(apiVideogame));
 };
 
 const getDbVideogameByName = async (search) => {
@@ -83,36 +47,8 @@ const getDbVideogameByName = async (search) => {
     },
     { limit: 15 }
   );
-  //Desctructuring and getting needed information
-  if (dbVideogames) {
-    dbVideogames = dbVideogames.map((dbVideogame) => {
-      let {
-        id,
-        name,
-        description,
-        platforms,
-        background_image,
-        released,
-        rating,
-        genres,
-      } = dbVideogame;
-      //Desctructuring and getting needed information from genres
-      genres = genres.map((gen) => gen.name);
-      //Returning arranged element from map
-      return {
-        id,
-        name,
-        description,
-        platforms,
-        background_image,
-        released,
-        rating,
-        genres,
-      };
-    });
-  }
-  //Returning videogames array to handler
-  return dbVideogames;
+  //Desctructuring and getting needed information and returning
+  return dbVideogames.map((dbVideogame) => arrangeDbData(dbVideogame));
 };
 
 const getApiVideogamesByName = async (search) => {
@@ -120,105 +56,28 @@ const getApiVideogamesByName = async (search) => {
   const { data } = await axios.get(
     `https://api.rawg.io/api/games?search=${search}&key=${API_KEY}`
   );
-  //Desctructuring and getting needed information
-  const apiVideogames = data.results.map((result) => {
-    let { id, name, platforms, background_image, released, rating, genres } =
-      result;
-    //Desctructuring and getting needed information from platforms
-    platforms = platforms.map((plat) => {
-      const { platform } = plat;
-      return platform.name;
-    });
-    //Desctructuring and getting needed information from genres
-    genres = genres.map((gen) => gen.name);
-    //Returning arranged element from map
-    return {
-      id,
-      name,
-      platforms,
-      background_image,
-      released,
-      rating,
-      genres,
-    };
-  });
-  //Returning videogames array to handler
-  return apiVideogames;
+  //Desctructuring and getting needed information and returning
+  return data.results.map((apiVideogame) => arrangeApiData(apiVideogame));
 };
 
-const getDbVideogameById = async (idVideogame) => {
-  //Searching for videogame in the database
-  // * Including genres from Genre model
-  const game = await Videogame.findByPk(idVideogame, {
-    include: {
-      model: Genre,
-      atributes: ["name"],
-      through: {
-        atributes: [],
+const getVideogameById = async (idVideogame) => {
+  if (isNaN(idVideogame)) {
+    const data = await Videogame.findByPk(idVideogame, {
+      include: {
+        model: Genre,
+        atributes: ["name"],
+        through: {
+          atributes: [],
+        },
       },
-    },
-  });
-  //Desctructuring and getting needed information
-  let {
-    id,
-    name,
-    description,
-    platforms,
-    background_image,
-    released,
-    rating,
-    genres,
-  } = game;
-  //Desctructuring and getting needed information from genres
-  genres = genres.map((gen) => gen.name);
-  //Returning videogame to handler
-  return {
-    id,
-    name,
-    description,
-    platforms,
-    background_image,
-    released,
-    rating,
-    genres,
-  };
-};
-
-const getApiVideogamebyId = async (idVideogame) => {
-  //Searching for videogame in the API
-  const { data } = await axios.get(
-    `https://api.rawg.io/api/games/${idVideogame}?key=${API_KEY}`
-  );
-  //Desctructuring and getting needed information
-  let {
-    id,
-    name,
-    description,
-    platforms,
-    background_image,
-    released,
-    rating,
-    genres,
-  } = data;
-
-  //Desctructuring and getting needed information from platforms
-  platforms = platforms.map((plat) => {
-    const { platform } = plat;
-    return platform.name;
-  });
-  //Desctructuring and getting needed information from genres
-  genres = genres.map((gen) => gen.name);
-  //Returning videogame to handler
-  return {
-    id,
-    name,
-    description,
-    platforms,
-    background_image,
-    released,
-    rating,
-    genres,
-  };
+    });
+    return arrangeDbData(data);
+  } else {
+    const { data } = await axios.get(
+      `https://api.rawg.io/api/games/${idVideogame}?key=${API_KEY}`
+    );
+    return arrangeApiData(data);
+  }
 };
 
 const postVideogame = async (
@@ -252,7 +111,6 @@ module.exports = {
   getApiVideogames,
   getDbVideogameByName,
   getApiVideogamesByName,
-  getDbVideogameById,
-  getApiVideogamebyId,
+  getVideogameById,
   postVideogame,
 };
