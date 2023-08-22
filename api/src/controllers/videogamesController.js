@@ -3,7 +3,12 @@ const axios = require("axios");
 require("dotenv").config();
 const { API_KEY } = process.env;
 const { Op } = require("sequelize");
-const { arrangeApiData, arrangeDbData } = require("../utils/dataArrange");
+const {
+  arrangeApiData,
+  arrangeApiDataId,
+  arrangeDbData,
+  arrangeDbDataId,
+} = require("../utils/dataArrange");
 
 const getDbVideogames = async () => {
   //Getting videogames from database
@@ -71,12 +76,12 @@ const getVideogameById = async (idVideogame) => {
         },
       },
     });
-    return arrangeDbData(data);
+    return arrangeDbDataId(data);
   } else {
     const { data } = await axios.get(
       `https://api.rawg.io/api/games/${idVideogame}?key=${API_KEY}`
     );
-    return arrangeApiData(data);
+    return arrangeApiDataId(data);
   }
 };
 
