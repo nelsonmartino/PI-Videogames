@@ -26,12 +26,19 @@ const getDbVideogames = async () => {
 };
 
 const getApiVideogames = async () => {
-  //Getting videogames from API
-  const { data } = await axios.get(
-    `https://api.rawg.io/api/games?key=${API_KEY}`
-  );
+  //Getting videogames from API (120 first results)
+  let results = [];
+  for (let i = 1; i <= 3; i++)
+    results = [
+      ...results,
+      ...(
+        await axios.get(
+          `https://api.rawg.io/api/games?page=${i}&page_size=40&key=${API_KEY}`
+        )
+      ).data.results,
+    ];
   //Desctructuring and getting needed information and returning
-  return data.results.map((apiVideogame) => arrangeApiData(apiVideogame));
+  return results.map((apiVideogame) => arrangeApiData(apiVideogame));
 };
 
 const getDbVideogameByName = async (search) => {

@@ -66,7 +66,7 @@ const arrangeDbData = (data) => {
     platforms,
     background_image,
     released,
-    rating,
+    rating:Number(rating),
     genres,
   };
 };
@@ -93,7 +93,7 @@ const arrangeDbDataId = (data) => {
     platforms,
     background_image,
     released,
-    rating,
+    rating:Number(rating),
     genres,
   };
 };
