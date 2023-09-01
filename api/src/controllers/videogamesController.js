@@ -93,7 +93,6 @@ const getVideogameById = async (idVideogame) => {
 };
 
 const postVideogame = async (
-  id,
   name,
   description,
   platforms,
@@ -104,7 +103,6 @@ const postVideogame = async (
 ) => {
   //Creating new videogame in database from data received
   const newGame = await Videogame.create({
-    id,
     name,
     description,
     platforms,
@@ -113,7 +111,7 @@ const postVideogame = async (
     rating,
   });
   //Adding received genres as relation in Genre model
-  newGame.addGenres(genres);
+  await newGame.addGenres(genres);
   //Returning created game
   return newGame;
 };

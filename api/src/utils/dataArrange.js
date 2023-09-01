@@ -9,6 +9,8 @@ const arrangeApiData = (data) => {
   });
   //Getting needed information from genres
   genres = genres.map((gen) => gen.name);
+  //Adding a flag to difference between database and api videogames
+  const origin = "api";
   //Returning arranged information
   return {
     id,
@@ -18,6 +20,7 @@ const arrangeApiData = (data) => {
     released,
     rating,
     genres,
+    origin,
   };
 };
 
@@ -59,6 +62,8 @@ const arrangeDbData = (data) => {
     data;
   //Getting needed information from genres
   genres = genres.map((gen) => gen.name);
+  //Adding a flag to difference between database and api videogames
+  const origin = "database";
   //Returning arranged information
   return {
     id,
@@ -66,8 +71,9 @@ const arrangeDbData = (data) => {
     platforms,
     background_image,
     released,
-    rating:Number(rating),
+    rating: Number(rating),
     genres,
+    origin,
   };
 };
 
@@ -93,7 +99,7 @@ const arrangeDbDataId = (data) => {
     platforms,
     background_image,
     released,
-    rating:Number(rating),
+    rating: Number(rating),
     genres,
   };
 };

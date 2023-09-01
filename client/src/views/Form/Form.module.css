@@ -1,0 +1,61 @@
+.form {
+  /* margin-top: 50px; */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 10px 0;
+}
+
+.label {
+  font-weight: bold;
+  text-align: left;
+  width: 150px;
+  margin-left: 10px;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  /* gap: 5px; */
+}
+
+.input {
+  /* padding: 5px; */
+  text-align: left;
+}
+
+.error {
+  color: red;
+  text-align: left;
+}
+
+.platformContainer {
+  display: flex;
+  flex-direction: column;
+  /* text-align: left; */
+  margin-left: 170px;
+}
+
+.genresContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 600px;
+}
+
+.button {
+  display: flex;
+  flex-direction: row;
+  width: 200px;
+  justify-content: center;
+  margin-left: 60px;
+}
+
+@media screen and (max-width: 600px) {
+  .genresContainer {
+    width: 100%;
+  }
+  
+}

@@ -6,9 +6,9 @@ import { getVideogames } from "../../redux/actions";
 function Home() {
   const dispatch = useDispatch();
 
-  useEffect(()=>{
-    dispatch(getVideogames())
-  },[dispatch])
+  useEffect(() => {
+    dispatch(getVideogames());
+  }, [dispatch]);
 
   return (
     <>

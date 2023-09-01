@@ -1,6 +1,61 @@
+a:link,
+a:visited,
+a:active {
+  text-decoration: none;
+}
+
 .card {
-    border: 1px solid red;
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
+  border: 1px solid black;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  width: 17vw;
+  margin: 1.2vw;
+  background-color: rgba(255, 255, 255, 0.5);
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+.name {
+  height: 60px;
+  font-size: large;
+  margin-top: 2px;
+}
+
+.image {
+  height: 140px;
+  object-fit: cover;
+}
+
+.genres {
+  font-size: medium;
+  margin: 2px;
+  text-align: center;
+}
+
+.genresContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  align-items: center;
+}
+
+.genre {
+  font-size: small;
+  margin: 1px 0;
+}
+
+@media screen and (max-width: 1024px) {
+  .card {
+    width: 20vw;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .card {
+    width: 28vw;
+  }
 }

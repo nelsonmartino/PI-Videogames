@@ -1,0 +1,13 @@
+.container {
+    padding: 10px;
+    background-color: rgb(255, 211, 157);
+
+}
+
+.button {
+    cursor: pointer;
+}
+
+.button[disabled] {
+    cursor:no-drop;
+}

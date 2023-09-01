@@ -1,0 +1,19 @@
+.container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.image {
+    margin-top: 50px;
+    width: 30vw;
+    height: fit-content;
+    object-fit:contain;
+    transition: transform 0.2s
+}
+
+.image:hover {
+    transform: scale(1.1);
+}
