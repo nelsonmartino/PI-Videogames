@@ -8,12 +8,12 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Henry Videogames</h1>
+      {/* <h1>Henry Videogames</h1> */}
       {location.pathname !== "/" && <NavBar />}
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/detail" element={<Detail />} />
+        <Route path="/detail/:id" element={<Detail />} />
         <Route path="/create" element={<Form />} />
       </Routes>
     </div>
