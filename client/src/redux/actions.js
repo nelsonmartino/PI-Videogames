@@ -9,12 +9,15 @@ export const ORDER_BY_RATING = "ORDER_BY_RATING";
 export const SEARCH_VIDEOGAMES = "SEARCH_VIDEOGAMES";
 export const DELETE_VIDEOGAME = "DELETE_VIDEOGAME";
 
-export const getVideogames = () => {
+export const getVideogames = (setIsLoading) => {
   return async function (dispatch) {
     try {
+      setIsLoading && setIsLoading(true)
       const { data } = await axios.get("http://localhost:3001/videogames");
+      setIsLoading && setIsLoading(false)
       dispatch({ type: GET_VIDEOGAMES, payload: data });
     } catch (error) {
+      setIsLoading && setIsLoading(false)
       alert(error);
     }
   };

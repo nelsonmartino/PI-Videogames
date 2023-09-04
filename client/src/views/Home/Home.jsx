@@ -1,18 +1,20 @@
 import { CardContainer } from "../../components";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getVideogames } from "../../redux/actions";
 
 function Home() {
   const dispatch = useDispatch();
 
+  const [isLoading, setIsLoading] = useState(false)
+
   useEffect(() => {
-    dispatch(getVideogames());
+    dispatch(getVideogames(setIsLoading));
   }, [dispatch]);
 
   return (
     <>
-      <CardContainer />
+      <CardContainer isLoading={isLoading} />
     </>
   );
 }

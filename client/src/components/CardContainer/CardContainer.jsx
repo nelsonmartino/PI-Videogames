@@ -2,10 +2,9 @@ import { useSelector } from "react-redux";
 import Card from "../Card/Card";
 import style from "./CardContainer.module.css";
 import { useState } from "react";
-// import { useEffect } from "react";
 import { Pagination } from "../index";
 
-function CardContainer() {
+function CardContainer({ isLoading }) {
   const videogames = useSelector((state) => state.videogames);
 
   const gamesAtPage = 15;
@@ -19,14 +18,20 @@ function CardContainer() {
 
   return (
     <>
-    <div className={style.container}>
-      {videogames
-        .slice(gamesAtPage * (page - 1), gamesAtPage * page)
-        .map((videogame) => (
-          <Card key={videogame.id} videogame={videogame} />
-        ))}
-    </div>
-      <Pagination page={page} setPage={setPage} pagesArray={pagesArray} pagesNumber={pagesNumber} />
+      <div className={style.container}>
+        {isLoading && <div className={style.loader}></div>}
+        {videogames
+          .slice(gamesAtPage * (page - 1), gamesAtPage * page)
+          .map((videogame) => (
+            <Card key={videogame.id} videogame={videogame} />
+          ))}
+      </div>
+      <Pagination
+        page={page}
+        setPage={setPage}
+        pagesArray={pagesArray}
+        pagesNumber={pagesNumber}
+      />
     </>
   );
 }
