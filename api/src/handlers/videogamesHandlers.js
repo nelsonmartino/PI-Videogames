@@ -5,6 +5,7 @@ const {
   getApiVideogamesByName,
   getVideogameById,
   postVideogame,
+  deleteVideogameById,
 } = require("../controllers/videogamesController");
 
 const getVideogamesHandler = async (req, res) => {
@@ -86,9 +87,20 @@ const postVideogameHandler = async (req, res) => {
   }
 };
 
+const deleteVideogameByIdHandler = async (req, res) => {
+  const { idVideogame } = req.params;
+  try {
+    const videogames = await deleteVideogameById(idVideogame);
+    res.status(200).json(videogames);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getVideogamesHandler,
   getVideogameByNameHandler,
   getVideogameByIdHandler,
   postVideogameHandler,
+  deleteVideogameByIdHandler,
 };

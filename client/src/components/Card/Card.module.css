@@ -13,6 +13,7 @@ a:active {
   margin: 1.2vw;
   background-color: rgba(255, 255, 255, 0.5);
   transition: transform 0.2s;
+  height: 300px;
 }
 
 .card:hover {
@@ -39,13 +40,17 @@ a:active {
 .genresContainer {
   display: flex;
   flex-direction: column;
-  height: 100px;
+  /* height: 100px; */
   align-items: center;
 }
 
 .genre {
   font-size: small;
   margin: 1px 0;
+}
+
+.delButton {
+  width: 60px;
 }
 
 @media screen and (max-width: 1024px) {

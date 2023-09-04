@@ -6,6 +6,7 @@ import {
   ORDER_BY_NAME,
   ORDER_BY_RATING,
   SEARCH_VIDEOGAMES,
+  DELETE_VIDEOGAME,
 } from "./actions";
 
 const initialState = {
@@ -40,10 +41,10 @@ const rootReducer = (state = initialState, action) => {
         ],
       };
     case ORDER_BY_NAME:
-      state.videogames = [...state.allVideogames];
+      let nameVideogames = [...state.allVideogames];
       return {
         ...state,
-        videogames: state.videogames.sort((x, y) => {
+        videogames: nameVideogames.sort((x, y) => {
           return action.payload === "Ascendant"
             ? x.name.localeCompare(y.name)
             : y.name.localeCompare(x.name);
@@ -51,10 +52,10 @@ const rootReducer = (state = initialState, action) => {
       };
 
     case ORDER_BY_RATING:
-      state.videogames = [...state.allVideogames];
+      let ratingVideogames = [...state.allVideogames];
       return {
         ...state,
-        videogames: state.videogames.sort((x, y) => {
+        videogames: ratingVideogames.sort((x, y) => {
           return action.payload === "Ascendant"
             ? x.rating - y.rating
             : y.rating - x.rating;
@@ -63,6 +64,10 @@ const rootReducer = (state = initialState, action) => {
 
     case SEARCH_VIDEOGAMES:
       return { ...state, videogames: action.payload };
+
+      case DELETE_VIDEOGAME:
+        let apiVideogames=[...state.allVideogames].filter(videogame=>videogame.origin==='api')
+        return {...state, videogames:[...action.payload,...apiVideogames], allVideogames:[...action.payload,...apiVideogames]}
 
     case RESET_FILTER:
       return { ...state, videogames: [...state.allVideogames] };

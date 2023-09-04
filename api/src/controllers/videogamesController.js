@@ -116,6 +116,12 @@ const postVideogame = async (
   return newGame;
 };
 
+const deleteVideogameById = async (idVideogame) => {
+  const videogame = await Videogame.findByPk(idVideogame);
+  await videogame.destroy();
+  return getDbVideogames();
+};
+
 module.exports = {
   getDbVideogames,
   getApiVideogames,
@@ -123,4 +129,5 @@ module.exports = {
   getApiVideogamesByName,
   getVideogameById,
   postVideogame,
+  deleteVideogameById,
 };

@@ -34,7 +34,7 @@
 .platformContainer {
   display: flex;
   flex-direction: column;
-  /* text-align: left; */
+  align-items: flex-start;
   margin-left: 170px;
 }
 
@@ -57,5 +57,4 @@
   .genresContainer {
     width: 100%;
   }
-  
 }

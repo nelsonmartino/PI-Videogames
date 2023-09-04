@@ -7,12 +7,16 @@ export const RESET_FILTER = "RESET_FILTER";
 export const ORDER_BY_NAME = "ORDER_BY_NAME";
 export const ORDER_BY_RATING = "ORDER_BY_RATING";
 export const SEARCH_VIDEOGAMES = "SEARCH_VIDEOGAMES";
+export const DELETE_VIDEOGAME = "DELETE_VIDEOGAME";
 
 export const getVideogames = () => {
   return async function (dispatch) {
-    const { data } = await axios.get("http://localhost:3001/videogames");
-    // const videogames = data.slice(0, 105);
-    dispatch({ type: GET_VIDEOGAMES, payload: data });
+    try {
+      const { data } = await axios.get("http://localhost:3001/videogames");
+      dispatch({ type: GET_VIDEOGAMES, payload: data });
+    } catch (error) {
+      alert(error);
+    }
   };
 };
 
@@ -37,6 +41,15 @@ export const searchGames = (word) => {
     axios
       .get(`http://localhost:3001/videogames/name?search=${word}`)
       .then((res) => dispatch({ type: SEARCH_VIDEOGAMES, payload: res.data }))
+      .catch((error) => alert(error));
+  };
+};
+
+export const deleteVideogame = (id) => {
+  return async function (dispatch) {
+    axios
+      .delete(`http://localhost:3001/videogames/${id}`)
+      .then((res) => dispatch({ type: DELETE_VIDEOGAME, payload: res.data }))
       .catch((error) => alert(error));
   };
 };
