@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { searchGames, resetFilter } from "../../redux/actions";
 import style from "./SearchBar.module.css";
 
-const SearchBar = () => {
+const SearchBar = ({setDefaultValue}) => {
   const dispatch = useDispatch();
 
   const [input, setInput] = useState("");
@@ -18,6 +18,12 @@ const SearchBar = () => {
   };
 
   const resetHandler = () => {
+    setDefaultValue({
+      origin: "allGames",
+      genre: "allGames",
+      name: "allGames",
+      rating: "allGames",
+    })
     dispatch(resetFilter());
     setInput("");
   };

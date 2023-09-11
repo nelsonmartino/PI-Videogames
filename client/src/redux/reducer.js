@@ -41,7 +41,7 @@ const rootReducer = (state = initialState, action) => {
         ],
       };
     case ORDER_BY_NAME:
-      let nameVideogames = [...state.allVideogames];
+      let nameVideogames = [...state.videogames];
       return {
         ...state,
         videogames: nameVideogames.sort((x, y) => {
@@ -52,7 +52,7 @@ const rootReducer = (state = initialState, action) => {
       };
 
     case ORDER_BY_RATING:
-      let ratingVideogames = [...state.allVideogames];
+      let ratingVideogames = [...state.videogames];
       return {
         ...state,
         videogames: ratingVideogames.sort((x, y) => {

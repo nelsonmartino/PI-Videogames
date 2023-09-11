@@ -19,6 +19,13 @@ function NavBar() {
 
   const [genres, setGenres] = useState([]);
 
+  const [defaultValue, setDefaultValue] = useState({
+    origin: "allGames",
+    genre: "allGames",
+    name: "allGames",
+    rating: "allGames",
+  });
+
   useEffect(() => {
     async function apiReq() {
       try {
@@ -33,6 +40,12 @@ function NavBar() {
 
   const originHandler = (event) => {
     const origin = event.target.value;
+    setDefaultValue({
+      origin: origin,
+      genre: "allGames",
+      name: "allGames",
+      rating: "allGames",
+    });
     if (origin === "allGames") {
       dispatch(resetFilter());
     } else {
@@ -42,6 +55,12 @@ function NavBar() {
 
   const genreHandler = (event) => {
     const genre = event.target.value;
+    setDefaultValue({
+      origin: "allGames",
+      genre: genre,
+      name: "allGames",
+      rating: "allGames",
+    });
     if (genre === "allGames") {
       dispatch(resetFilter());
     } else {
@@ -51,6 +70,7 @@ function NavBar() {
 
   const nameHandler = (event) => {
     const order = event.target.value;
+    setDefaultValue({ ...defaultValue, name: order, rating: "allGames" });
     if (order === "allGames") {
       dispatch(resetFilter());
     } else {
@@ -60,6 +80,7 @@ function NavBar() {
 
   const ratingHandler = (event) => {
     const order = event.target.value;
+    setDefaultValue({ ...defaultValue, rating: order, name: "allGames" });
     if (order === "allGames") {
       dispatch(resetFilter());
     } else {
@@ -78,39 +99,43 @@ function NavBar() {
             <div className={style.text}>CREATE</div>
           </Link>
         </div>
-        {location.pathname==='/home' &&<div className={style.searchbar}>
-          <SearchBar />
-        </div>}
+        {location.pathname === "/home" && (
+          <div className={style.searchbar}>
+            <SearchBar setDefaultValue={setDefaultValue} />
+          </div>
+        )}
       </div>
-      {location.pathname==='/home' && <div className={style.levelTwo}>
-        <div className={style.filters}>
-          <select onChange={originHandler}>
-            <option value="allGames">Filter By Origin</option>
-            <option value="database">Database</option>
-            <option value="api">API</option>
-          </select>
-          <select onChange={genreHandler}>
-            <option value="allGames">Filter By Genre</option>
-            {genres.map((genre) => (
-              <option key={genre.id} value={genre.name}>
-                {genre.name}
-              </option>
-            ))}
-          </select>
+      {location.pathname === "/home" && (
+        <div className={style.levelTwo}>
+          <div className={style.filters}>
+            <select value={defaultValue.origin} onChange={originHandler}>
+              <option value="allGames">Filter By Origin</option>
+              <option value="database">Database</option>
+              <option value="api">API</option>
+            </select>
+            <select value={defaultValue.genre} onChange={genreHandler}>
+              <option value="allGames">Filter By Genre</option>
+              {genres.map((genre) => (
+                <option key={genre.id} value={genre.name}>
+                  {genre.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className={style.orderers}>
+            <select value={defaultValue.name} onChange={nameHandler}>
+              <option value="allGames">Order By Name</option>
+              <option value="Ascendant">A...Z</option>
+              <option value="Descendant">Z...A</option>
+            </select>
+            <select value={defaultValue.rating} onChange={ratingHandler}>
+              <option value="allGames">Order By Rating</option>
+              <option value="Ascendant">Ascendant</option>
+              <option value="Descendant">Descendant</option>
+            </select>
+          </div>
         </div>
-        <div className={style.orderers}>
-          <select onChange={nameHandler}>
-            <option value="allGames">Order By Name</option>
-            <option value="Ascendant">A...Z</option>
-            <option value="Descendant">Z...A</option>
-          </select>
-          <select onChange={ratingHandler}>
-            <option value="allGames">Order By Rating</option>
-            <option value="Ascendant">Ascendant</option>
-            <option value="Descendant">Descendant</option>
-          </select>
-        </div>
-      </div>}
+      )}
     </div>
   );
 }
