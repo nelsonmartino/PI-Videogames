@@ -26,12 +26,12 @@ function CardContainer({ isLoading }) {
             <Card key={videogame.id} videogame={videogame} />
           ))}
       </div>
-      <Pagination
+      {pagesNumber>1 && <Pagination
         page={page}
         setPage={setPage}
         pagesArray={pagesArray}
         pagesNumber={pagesNumber}
-      />
+      />}
     </>
   );
 }
