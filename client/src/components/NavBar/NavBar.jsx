@@ -2,11 +2,10 @@ import { Link, useLocation } from "react-router-dom";
 import style from "./NavBar.module.css";
 import { useDispatch } from "react-redux";
 import {
-  filterByGenre,
-  filterByOrigin,
   resetFilter,
   orderByName,
   orderByRating,
+  filterAction
 } from "../../redux/actions";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -38,34 +37,11 @@ function NavBar() {
     apiReq();
   }, []);
 
-  const originHandler = (event) => {
-    const origin = event.target.value;
-    setDefaultValue({
-      origin: origin,
-      genre: "allGames",
-      name: "allGames",
-      rating: "allGames",
-    });
-    if (origin === "allGames") {
-      dispatch(resetFilter());
-    } else {
-      dispatch(filterByOrigin(origin));
-    }
-  };
-
-  const genreHandler = (event) => {
-    const genre = event.target.value;
-    setDefaultValue({
-      origin: "allGames",
-      genre: genre,
-      name: "allGames",
-      rating: "allGames",
-    });
-    if (genre === "allGames") {
-      dispatch(resetFilter());
-    } else {
-      dispatch(filterByGenre(genre));
-    }
+  const filterHandler = (event) => {
+    const filter = event.target.id;
+    const value = event.target.value;
+    setDefaultValue({...defaultValue, [filter]:value});
+    dispatch(filterAction({...defaultValue, [filter]:value}))
   };
 
   const nameHandler = (event) => {
@@ -108,12 +84,20 @@ function NavBar() {
       {location.pathname === "/home" && (
         <div className={style.levelTwo}>
           <div className={style.filters}>
-            <select value={defaultValue.origin} onChange={originHandler}>
+            <select
+              id="origin"
+              value={defaultValue.origin}
+              onChange={filterHandler}
+            >
               <option value="allGames">Filter By Origin</option>
               <option value="database">Database</option>
               <option value="api">API</option>
             </select>
-            <select value={defaultValue.genre} onChange={genreHandler}>
+            <select
+              id="genre"
+              value={defaultValue.genre}
+              onChange={filterHandler}
+            >
               <option value="allGames">Filter By Genre</option>
               {genres.map((genre) => (
                 <option key={genre.id} value={genre.name}>
@@ -123,12 +107,18 @@ function NavBar() {
             </select>
           </div>
           <div className={style.orderers}>
-            <select value={defaultValue.name} onChange={nameHandler}>
+            <select
+              value={defaultValue.name}
+              onChange={nameHandler}
+            >
               <option value="allGames">Order By Name</option>
               <option value="Ascendant">A...Z</option>
               <option value="Descendant">Z...A</option>
             </select>
-            <select value={defaultValue.rating} onChange={ratingHandler}>
+            <select
+              value={defaultValue.rating}
+              onChange={ratingHandler}
+            >
               <option value="allGames">Order By Rating</option>
               <option value="Ascendant">Ascendant</option>
               <option value="Descendant">Descendant</option>

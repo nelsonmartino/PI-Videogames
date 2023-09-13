@@ -1,12 +1,11 @@
 import {
   GET_VIDEOGAMES,
-  FILTER_BY_ORIGIN,
-  FILTER_BY_GENRE,
   RESET_FILTER,
   ORDER_BY_NAME,
   ORDER_BY_RATING,
   SEARCH_VIDEOGAMES,
   DELETE_VIDEOGAME,
+  FILTER_ACTION,
 } from "./actions";
 
 const initialState = {
@@ -22,24 +21,7 @@ const rootReducer = (state = initialState, action) => {
         videogames: [...action.payload],
         allVideogames: [...action.payload],
       };
-    case FILTER_BY_ORIGIN:
-      return {
-        ...state,
-        videogames: [
-          ...state.allVideogames.filter(
-            (videogame) => videogame.origin === action.payload
-          ),
-        ],
-      };
-    case FILTER_BY_GENRE:
-      return {
-        ...state,
-        videogames: [
-          ...state.allVideogames.filter((videogame) =>
-            videogame.genres.includes(action.payload)
-          ),
-        ],
-      };
+
     case ORDER_BY_NAME:
       let nameVideogames = [...state.videogames];
       return {
@@ -62,12 +44,40 @@ const rootReducer = (state = initialState, action) => {
         }),
       };
 
+    case FILTER_ACTION:
+      let copyVideogames = [...state.allVideogames];
+      if (action.payload.origin !== "allGames") {
+        copyVideogames = copyVideogames.filter(
+          (videogame) => videogame.origin === action.payload.origin
+        );
+      }
+      if (action.payload.genre !== "allGames") {
+        copyVideogames = copyVideogames.filter((videogame) =>
+          videogame.genres.includes(action.payload.genre)
+        );
+      }
+      return { ...state, videogames: copyVideogames };
+
     case SEARCH_VIDEOGAMES:
       return { ...state, videogames: action.payload };
 
-      case DELETE_VIDEOGAME:
-        let apiVideogames=[...state.allVideogames].filter(videogame=>videogame.origin==='api')
-        return {...state, videogames:[...action.payload,...apiVideogames], allVideogames:[...action.payload,...apiVideogames]}
+    // case SEARCH_VIDEOGAMES:
+    //   return {
+    //     ...state,
+    //     videogames: state.allVideogames.filter((videogame) =>
+    //       videogame.name.toLowerCase().includes(action.payload.toLowerCase())
+    //     ),
+    //   };
+
+    case DELETE_VIDEOGAME:
+      let apiVideogames = [...state.allVideogames].filter(
+        (videogame) => videogame.origin === "api"
+      );
+      return {
+        ...state,
+        videogames: [...action.payload, ...apiVideogames],
+        allVideogames: [...action.payload, ...apiVideogames],
+      };
 
     case RESET_FILTER:
       return { ...state, videogames: [...state.allVideogames] };

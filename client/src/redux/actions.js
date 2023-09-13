@@ -1,34 +1,29 @@
 import axios from "axios";
 
 export const GET_VIDEOGAMES = "GET_VIDEOGAMES";
-export const FILTER_BY_ORIGIN = "FILTER_BY_ORIGIN";
-export const FILTER_BY_GENRE = "FILTER_BY_GENRE";
 export const RESET_FILTER = "RESET_FILTER";
 export const ORDER_BY_NAME = "ORDER_BY_NAME";
 export const ORDER_BY_RATING = "ORDER_BY_RATING";
 export const SEARCH_VIDEOGAMES = "SEARCH_VIDEOGAMES";
 export const DELETE_VIDEOGAME = "DELETE_VIDEOGAME";
+export const FILTER_ACTION = "FILTER_ACTION";
 
 export const getVideogames = (setIsLoading) => {
   return async function (dispatch) {
     try {
-      setIsLoading && setIsLoading(true)
+      setIsLoading && setIsLoading(true);
       const { data } = await axios.get("http://localhost:3001/videogames");
-      setIsLoading && setIsLoading(false)
+      setIsLoading && setIsLoading(false);
       dispatch({ type: GET_VIDEOGAMES, payload: data });
     } catch (error) {
-      setIsLoading && setIsLoading(false)
+      setIsLoading && setIsLoading(false);
       alert(error);
     }
   };
 };
 
-export const filterByOrigin = (origin) => {
-  return { type: FILTER_BY_ORIGIN, payload: origin };
-};
-
-export const filterByGenre = (genre) => {
-  return { type: FILTER_BY_GENRE, payload: genre };
+export const filterAction = (filter) => {
+  return { type: FILTER_ACTION, payload: filter };
 };
 
 export const orderByName = (order) => {
@@ -47,6 +42,10 @@ export const searchGames = (word) => {
       .catch((error) => alert(error));
   };
 };
+
+// export const searchGames = (word) => {
+//   return { type: SEARCH_VIDEOGAMES, payload: word };
+// };
 
 export const deleteVideogame = (id) => {
   return async function (dispatch) {
