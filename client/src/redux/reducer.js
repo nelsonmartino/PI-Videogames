@@ -18,8 +18,8 @@ const rootReducer = (state = initialState, action) => {
     case GET_VIDEOGAMES:
       return {
         ...state,
-        videogames: [...action.payload],
-        allVideogames: [...action.payload],
+        videogames: action.payload,
+        allVideogames: action.payload,
       };
 
     case ORDER_BY_NAME:
@@ -60,14 +60,6 @@ const rootReducer = (state = initialState, action) => {
 
     case SEARCH_VIDEOGAMES:
       return { ...state, videogames: action.payload };
-
-    // case SEARCH_VIDEOGAMES:
-    //   return {
-    //     ...state,
-    //     videogames: state.allVideogames.filter((videogame) =>
-    //       videogame.name.toLowerCase().includes(action.payload.toLowerCase())
-    //     ),
-    //   };
 
     case DELETE_VIDEOGAME:
       let apiVideogames = [...state.allVideogames].filter(

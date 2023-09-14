@@ -5,13 +5,13 @@ import {
   resetFilter,
   orderByName,
   orderByRating,
-  filterAction
+  filterAction,
 } from "../../redux/actions";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { SearchBar } from "../index";
 
-function NavBar() {
+function NavBar({ setPage }) {
   const dispatch = useDispatch();
 
   const location = useLocation();
@@ -38,10 +38,11 @@ function NavBar() {
   }, []);
 
   const filterHandler = (event) => {
+    setPage(1);
     const filter = event.target.id;
     const value = event.target.value;
-    setDefaultValue({...defaultValue, [filter]:value});
-    dispatch(filterAction({...defaultValue, [filter]:value}))
+    setDefaultValue({ ...defaultValue, [filter]: value });
+    dispatch(filterAction({ ...defaultValue, [filter]: value }));
   };
 
   const nameHandler = (event) => {
@@ -77,7 +78,7 @@ function NavBar() {
         </div>
         {location.pathname === "/home" && (
           <div className={style.searchbar}>
-            <SearchBar setDefaultValue={setDefaultValue} />
+            <SearchBar setDefaultValue={setDefaultValue} setPage={setPage} />
           </div>
         )}
       </div>
@@ -107,18 +108,12 @@ function NavBar() {
             </select>
           </div>
           <div className={style.orderers}>
-            <select
-              value={defaultValue.name}
-              onChange={nameHandler}
-            >
+            <select value={defaultValue.name} onChange={nameHandler}>
               <option value="allGames">Order By Name</option>
               <option value="Ascendant">A...Z</option>
               <option value="Descendant">Z...A</option>
             </select>
-            <select
-              value={defaultValue.rating}
-              onChange={ratingHandler}
-            >
+            <select value={defaultValue.rating} onChange={ratingHandler}>
               <option value="allGames">Order By Rating</option>
               <option value="Ascendant">Ascendant</option>
               <option value="Descendant">Descendant</option>

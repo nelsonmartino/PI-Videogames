@@ -1,11 +1,8 @@
-import { useSelector } from "react-redux";
 import Card from "../Card/Card";
 import style from "./CardContainer.module.css";
-import { useState } from "react";
 import { Pagination } from "../index";
 
-function CardContainer({ isLoading }) {
-  const videogames = useSelector((state) => state.videogames);
+function CardContainer({ isLoading, page, setPage, videogames }) {
 
   const gamesAtPage = 15;
   const pagesNumber = Math.ceil(videogames.length / gamesAtPage);
@@ -13,8 +10,6 @@ function CardContainer({ isLoading }) {
     { length: pagesNumber },
     (_, index) => index + 1
   );
-
-  const [page, setPage] = useState(1);
 
   return (
     <>

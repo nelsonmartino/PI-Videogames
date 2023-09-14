@@ -2,8 +2,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import style from "./Form.module.css";
 import { validate } from "../../utils/validate";
+import { useDispatch } from "react-redux";
+import { getVideogames } from "../../redux/actions";
 
 function Form() {
+  const dispatch = useDispatch();
+
   const [form, setForm] = useState({
     name: "",
     description: "",
@@ -142,6 +146,7 @@ function Form() {
             currentPlatform: "",
             apiGenres: [],
           });
+          dispatch(getVideogames())
           alert("Game Created");
         })
         .catch((error) => alert(error));
@@ -249,7 +254,9 @@ function Form() {
           </label>
         ))}
       </div>
-      <button className={style.button} type="submit">Create</button>
+      <button className={style.button} type="submit">
+        Create
+      </button>
     </form>
   );
 }

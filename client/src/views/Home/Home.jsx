@@ -1,20 +1,22 @@
 import { CardContainer } from "../../components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getVideogames } from "../../redux/actions";
 
-function Home() {
-  const dispatch = useDispatch();
 
-  const [isLoading, setIsLoading] = useState(false)
+function Home({ page, setPage }) {
+  const dispatch = useDispatch();
+  const videogames = useSelector((state) => state.videogames);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    dispatch(getVideogames(setIsLoading));
-  }, [dispatch]);
+    !videogames.length && dispatch(getVideogames(setIsLoading));
+  }, [dispatch,videogames.length]);
 
   return (
     <>
-      <CardContainer isLoading={isLoading} />
+      <CardContainer isLoading={isLoading} page={page} setPage={setPage} videogames={videogames} />
     </>
   );
 }
